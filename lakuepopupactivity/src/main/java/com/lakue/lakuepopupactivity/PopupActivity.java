@@ -125,7 +125,7 @@ public class PopupActivity extends Activity {
         } else if (type == 3) {
             setContentView(R.layout.activity_popup_error);
             title = intent.getStringExtra("title");
-            buttonLeft = intent.getStringExtra("buttonLeft");
+            content = intent.getStringExtra("content");
             buttonRight = intent.getStringExtra("buttonRight");
 
             //UI 객체생성
@@ -136,14 +136,14 @@ public class PopupActivity extends Activity {
 
             tv_title.setText(title);
             tv_content.setText(content);
-            btn_ok.setText(buttonCenter);
+            btn_ok.setText(buttonRight);
 
             btn_ok.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //데이터 전달하기
                     Intent intent = new Intent();
-                    intent.putExtra("result", "Popup1 Close");
+                    intent.putExtra("result", "Popup3 Close");
                     setResult(RESULT_OK, intent);
 
                     //액티비티(팝업) 닫기
@@ -205,20 +205,6 @@ public class PopupActivity extends Activity {
                     finish();
                 }
             });
-        }
-    }
-
-    public void DownloadFullFromUrl(String imageFullURL, ImageView iv) {
-        try {
-            String img_url = imageFullURL; //url of the image
-            URL url = new URL(img_url);
-            Bitmap bmp;
-            bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            iv.setImageBitmap(bmp);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
