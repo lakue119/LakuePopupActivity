@@ -1,0 +1,2 @@
+include ':app', ':lakuepopupactivity'
+rootProject.name='LakuePopupActivitySample'

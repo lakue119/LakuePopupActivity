@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lakue.lakuepopupactivity">
+
+    <application>
+        <activity
+            android:name=".PopupActivity"
+            android:theme="@android:style/Theme.Dialog"></activity>
+    </application>
+
+</manifest>
