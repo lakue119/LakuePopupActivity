@@ -66,8 +66,8 @@ First Popup
 |------|---|---|
 |type|PopupType|PopupActivity Type|
 |gravity|PopupGravity|Align text inside an activity|
-|title|String|Activity Title|
-|content|String|Activity Contents|
+|title|String|Popup Title|
+|content|String|Popup Contents|
 |buttonCenter|String|Button Text|
 
 Second Popup
@@ -92,8 +92,8 @@ Second Popup
 |------|---|---|
 |type|PopupType|PopupActivity Type|
 |gravity|PopupGravity|Align text inside an activity|
-|title|String|Activity Title|
-|content|String|Activity Contents|
+|title|String|Popup Title|
+|content|String|Popup Contents|
 |buttonLeft|String|Left Button Text|
 |buttonRight|String|Right Button Text|  
 
@@ -118,8 +118,8 @@ Third Popup
 |------|---|---|
 |type|PopupType|PopupActivity Type|
 |gravity|PopupGravity|Align text inside an activity|
-|title|String|Activity Title|
-|content|String|Activity Contents|
+|title|String|Popup Title|
+|content|String|Popup Contents|
 |buttonRight|String|Right Button Text|    
 
 Four Popup
@@ -197,4 +197,8 @@ Four Popup
             }
         }
     }
-``` 
+```   
+
+# Note
+
+https://lakue.tistory.com/36  
