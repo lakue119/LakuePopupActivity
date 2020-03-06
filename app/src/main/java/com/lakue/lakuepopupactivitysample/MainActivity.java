@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.lakue.lakuepopupactivity.PopupActivity;
+import com.lakue.lakuepopupactivity.PopupGravity;
+import com.lakue.lakuepopupactivity.PopupResult;
+import com.lakue.lakuepopupactivity.PopupType;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), PopupActivity.class);
-                intent.putExtra("type", 1);
+                intent.putExtra("type", PopupType.NORMAL);
+                intent.putExtra("gravity", PopupGravity.CENTER);
                 intent.putExtra("title", "공지사항");
                 intent.putExtra("content", "Popup Activity was made by Lakue");
                 intent.putExtra("buttonCenter", "종료");
@@ -43,12 +47,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), PopupActivity.class);
-                intent.putExtra("type", 2);
+                intent.putExtra("type", PopupType.SELECT);
+                intent.putExtra("gravity", PopupGravity.LEFT);
                 intent.putExtra("title", "공지사항");
                 intent.putExtra("content", "Did Lakue make a Popup Activity?");
                 intent.putExtra("buttonLeft", "예");
                 intent.putExtra("buttonRight", "아니오");
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent, 2);
             }
         });
 
@@ -56,11 +61,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), PopupActivity.class);
-                intent.putExtra("type", 3);
-                intent.putExtra("title", "Error");
-                intent.putExtra("content", "Error Message");
+                intent.putExtra("type", PopupType.ERROR);
+                intent.putExtra("gravity", PopupGravity.RIGHT);
+                intent.putExtra("title", "ERROR");
+                intent.putExtra("content", "ERROR Message");
                 intent.putExtra("buttonRight", "닫기");
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent, 3);
             }
         });
 
@@ -68,11 +74,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), PopupActivity.class);
-                intent.putExtra("type", 4);
-                intent.putExtra("title", "https://taegon.kim/wp-content/uploads/2018/05/image-5.png");
+                intent.putExtra("type", PopupType.IMAGE);
+                intent.putExtra("title", "https://media.istockphoto.com/photos/night-empty-road-with-modern-led-street-lights-entrance-to-a-small-picture-id1072163884?k=6&m=1072163884&s=612x612&w=0&h=rMlTtkKwKTbj36JigRzicznv98jaCvwnuZGQN4_CNZQ=");
                 intent.putExtra("buttonLeft", "종료");
                 intent.putExtra("buttonRight", "바로가기");
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent, 4);
             }
         });
     }
@@ -82,20 +88,47 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             //데이터 받기
             if(requestCode == 1){
-                String result = data.getStringExtra("result");
-                Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+                PopupResult result = (PopupResult) data.getSerializableExtra("result");
+                if(result == PopupResult.CENTER){
+                    // 작성 코드
+                    Toast.makeText(this, "CENTER", Toast.LENGTH_SHORT).show();
+                }
             }
             if(requestCode == 2){
-                String result = data.getStringExtra("result");
-                Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+                PopupResult result = (PopupResult) data.getSerializableExtra("result");
+                if(result == PopupResult.LEFT){
+                    // 작성 코드
+                    Toast.makeText(this, "LEFT", Toast.LENGTH_SHORT).show();
+
+                } else if(result == PopupResult.RIGHT){
+                    // 작성 코드
+                    Toast.makeText(this, "RIGHT", Toast.LENGTH_SHORT).show();
+
+                }
             }
             if(requestCode == 3){
-                String result = data.getStringExtra("result");
-                Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+                PopupResult result = (PopupResult) data.getSerializableExtra("result");
+                if(result == PopupResult.CENTER){
+                    // 작성 코드
+                    Toast.makeText(this, "CENTER", Toast.LENGTH_SHORT).show();
+
+                }
             }
-            if(requestCode == 3){
-                String result = data.getStringExtra("result");
-                Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+            if(requestCode == 4){
+                PopupResult result = (PopupResult) data.getSerializableExtra("result");
+                if(result == PopupResult.LEFT){
+                    // 작성 코드
+                    Toast.makeText(this, "LEFT", Toast.LENGTH_SHORT).show();
+
+                } else if(result == PopupResult.RIGHT){
+                    // 작성 코드
+                    Toast.makeText(this, "RIGHT", Toast.LENGTH_SHORT).show();
+
+                } else if(result == PopupResult.IMAGE){
+                    // 작성 코드
+                    Toast.makeText(this, "IMAGE", Toast.LENGTH_SHORT).show();
+
+                }
             }
         }
     }

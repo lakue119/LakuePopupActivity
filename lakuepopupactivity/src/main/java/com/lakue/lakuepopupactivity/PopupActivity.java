@@ -1,14 +1,12 @@
 package com.lakue.lakuepopupactivity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -16,16 +14,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 
-import static android.content.ContentValues.TAG;
 import static android.os.FileUtils.copy;
 
 public class PopupActivity extends Activity {
@@ -43,25 +35,37 @@ public class PopupActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         //데이터 가져오기
         Intent intent = getIntent();
-        int type = intent.getIntExtra("type", 0);
+        PopupType type = (PopupType) intent.getSerializableExtra("type");
 
         String title = "";
         String content = "";
         String buttonCenter = "";
         String buttonLeft = "";
         String buttonRight = "";
+        PopupGravity gravity;
 
-        if (type == 1) {
+        if (type == PopupType.NORMAL) {
             setContentView(R.layout.activity_popup);
             title = intent.getStringExtra("title");
             content = intent.getStringExtra("content");
             buttonCenter = intent.getStringExtra("buttonCenter");
+            gravity = (PopupGravity) intent.getSerializableExtra("gravity");
 
             //UI 객체생성
             tv_title = (TextView) findViewById(R.id.tv_title);
             tv_content = (TextView) findViewById(R.id.tv_content);
             btn_ok = (Button) findViewById(R.id.btn_ok);
 
+            if(gravity == PopupGravity.CENTER){
+                tv_title.setGravity(Gravity.CENTER);
+                tv_content.setGravity(Gravity.CENTER);
+            } else if(gravity == PopupGravity.LEFT){
+                tv_title.setGravity(Gravity.LEFT);
+                tv_content.setGravity(Gravity.LEFT);
+            } else if(gravity == PopupGravity.RIGHT){
+                tv_title.setGravity(Gravity.RIGHT);
+                tv_content.setGravity(Gravity.RIGHT);
+            }
 
             tv_title.setText(title);
             tv_content.setText(content);
@@ -72,25 +76,37 @@ public class PopupActivity extends Activity {
                 public void onClick(View v) {
                     //데이터 전달하기
                     Intent intent = new Intent();
-                    intent.putExtra("result", "Popup1 Close");
+                    intent.putExtra("result", PopupResult.CENTER);
                     setResult(RESULT_OK, intent);
 
                     //액티비티(팝업) 닫기
                     finish();
                 }
             });
-        } else if (type == 2) {
+        } else if (type == PopupType.SELECT) {
             setContentView(R.layout.activity_popup_select);
             title = intent.getStringExtra("title");
             content = intent.getStringExtra("content");
             buttonLeft = intent.getStringExtra("buttonLeft");
             buttonRight = intent.getStringExtra("buttonRight");
+            gravity = (PopupGravity) intent.getSerializableExtra("gravity");
 
             //UI 객체생성
             tv_title = (TextView) findViewById(R.id.tv_title);
             tv_content = (TextView) findViewById(R.id.tv_content);
             btn_left = (Button) findViewById(R.id.btn_left);
             btn_right = (Button) findViewById(R.id.btn_right);
+
+            if(gravity == PopupGravity.CENTER){
+                tv_title.setGravity(Gravity.CENTER);
+                tv_content.setGravity(Gravity.CENTER);
+            } else if(gravity == PopupGravity.LEFT){
+                tv_title.setGravity(Gravity.LEFT);
+                tv_content.setGravity(Gravity.LEFT);
+            } else if(gravity == PopupGravity.RIGHT){
+                tv_title.setGravity(Gravity.RIGHT);
+                tv_content.setGravity(Gravity.RIGHT);
+            }
 
             tv_title.setText(title);
             tv_content.setText(content);
@@ -102,7 +118,7 @@ public class PopupActivity extends Activity {
                 public void onClick(View v) {
                     //데이터 전달하기
                     Intent intent = new Intent();
-                    intent.putExtra("result", "Right Popup Click");
+                    intent.putExtra("result", PopupResult.RIGHT);
                     setResult(RESULT_OK, intent);
 
                     //액티비티(팝업) 닫기
@@ -115,24 +131,24 @@ public class PopupActivity extends Activity {
                 public void onClick(View v) {
                     //데이터 전달하기
                     Intent intent = new Intent();
-                    intent.putExtra("result", "Left Popup Click");
+                    intent.putExtra("result", PopupResult.LEFT);
                     setResult(RESULT_OK, intent);
 
                     //액티비티(팝업) 닫기
                     finish();
                 }
             });
-        } else if (type == 3) {
+        } else if (type == PopupType.ERROR) {
             setContentView(R.layout.activity_popup_error);
             title = intent.getStringExtra("title");
             content = intent.getStringExtra("content");
             buttonRight = intent.getStringExtra("buttonRight");
+            gravity = (PopupGravity) intent.getSerializableExtra("gravity");
 
             //UI 객체생성
             tv_title = (TextView) findViewById(R.id.tv_title);
             tv_content = (TextView) findViewById(R.id.tv_content);
             btn_ok = (Button) findViewById(R.id.btn_ok);
-
 
             tv_title.setText(title);
             tv_content.setText(content);
@@ -143,14 +159,14 @@ public class PopupActivity extends Activity {
                 public void onClick(View v) {
                     //데이터 전달하기
                     Intent intent = new Intent();
-                    intent.putExtra("result", "Popup3 Close");
+                    intent.putExtra("result", PopupResult.CENTER);
                     setResult(RESULT_OK, intent);
 
                     //액티비티(팝업) 닫기
                     finish();
                 }
             });
-        } else if (type == 4) {
+        } else if (type == PopupType.IMAGE) {
             setContentView(R.layout.activity_popup_image);
             title = intent.getStringExtra("title");
             buttonLeft = intent.getStringExtra("buttonLeft");
@@ -172,7 +188,7 @@ public class PopupActivity extends Activity {
                 public void onClick(View v) {
                     //데이터 전달하기
                     Intent intent = new Intent();
-                    intent.putExtra("result", "Go");
+                    intent.putExtra("result", PopupResult.IMAGE);
                     setResult(RESULT_OK, intent);
 
                     //액티비티(팝업) 닫기
@@ -185,7 +201,7 @@ public class PopupActivity extends Activity {
                 public void onClick(View v) {
                     //데이터 전달하기
                     Intent intent = new Intent();
-                    intent.putExtra("result", "Go");
+                    intent.putExtra("result", PopupResult.RIGHT);
                     setResult(RESULT_OK, intent);
 
                     //액티비티(팝업) 닫기
@@ -198,7 +214,7 @@ public class PopupActivity extends Activity {
                 public void onClick(View v) {
                     //데이터 전달하기
                     Intent intent = new Intent();
-                    intent.putExtra("result", "Cancel");
+                    intent.putExtra("result", PopupResult.LEFT);
                     setResult(RESULT_OK, intent);
 
                     //액티비티(팝업) 닫기
